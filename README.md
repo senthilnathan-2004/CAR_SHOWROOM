@@ -91,4 +91,3 @@ npm run start
 * **Canvas Rendering**: Directly writes images to a 2D canvas context using `requestAnimationFrame` and scroll listeners to bypass React re-render cycles entirely, resulting in smooth rendering performance.
 * **Image Preloading**: Caches all 240 image frames in-memory on initial load, blocking the screen with a diagnostic loader until the resources are cached to prevent network lag on scroll.
 * **Transform Reset**: Resets the canvas transform matrix using `setTransform` on each frame to prevent pixelation on high-DPI (Retina) screen resize triggers.
-# CAR_SHOWROOM
