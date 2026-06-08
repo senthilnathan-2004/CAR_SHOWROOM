@@ -7,12 +7,14 @@ interface ScrollytellingCanvasProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
   onLoadingProgress: (progress: number) => void;
   onLoaded: () => void;
+  colorFilter?: string;
 }
 
 export default function ScrollytellingCanvas({
   containerRef,
   onLoadingProgress,
   onLoaded,
+  colorFilter = 'none',
 }: ScrollytellingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
@@ -93,8 +95,7 @@ export default function ScrollytellingCanvas({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, width, height);
 
-    // Aspect ratio fitting logic (Cover/Contain style)
-    // We want to center the vehicle image
+    // Aspect ratio fitting logic
     const imgRatio = img.width / img.height;
     const canvasRatio = width / height;
 
@@ -103,18 +104,31 @@ export default function ScrollytellingCanvas({
     let offsetX = 0;
     let offsetY = 0;
 
-    if (canvasRatio > imgRatio) {
-      // Canvas is wider than image aspect ratio (letterbox top/bottom)
-      // So height dictates the sizing
-      drawHeight = height;
-      drawWidth = height * imgRatio;
+    const isMobile = width < 768;
+
+    if (isMobile) {
+      // True cover behavior for mobile portrait so there is zero black space around the car
+      // We scale with a slight zoom (1.1x) to guarantee coverage of all screen boundaries
+      if (canvasRatio > imgRatio) {
+        drawWidth = width * 1.1;
+        drawHeight = drawWidth / imgRatio;
+      } else {
+        drawHeight = height * 1.1;
+        drawWidth = drawHeight * imgRatio;
+      }
       offsetX = (width - drawWidth) / 2;
+      offsetY = (height - drawHeight) / 2 - 20; // centered and offset slightly upwards to account for the bottom HUD
     } else {
-      // Canvas is narrower than image aspect ratio (letterbox sides)
-      // So width dictates sizing
-      drawWidth = width;
-      drawHeight = width / imgRatio;
-      offsetY = (height - drawHeight) / 2;
+      // Contain style for desktop
+      if (canvasRatio > imgRatio) {
+        drawHeight = height;
+        drawWidth = height * imgRatio;
+        offsetX = (width - drawWidth) / 2;
+      } else {
+        drawWidth = width;
+        drawHeight = width / imgRatio;
+        offsetY = (height - drawHeight) / 2;
+      }
     }
 
     // Draw the image
@@ -147,7 +161,8 @@ export default function ScrollytellingCanvas({
     <div className="relative w-full h-full">
       <canvas
         ref={canvasRef}
-        className="block w-full h-full object-cover select-none pointer-events-none"
+        style={{ filter: colorFilter, transition: 'filter 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}
+        className="block w-full h-full select-none pointer-events-none"
       />
     </div>
   );

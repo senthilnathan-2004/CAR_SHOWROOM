@@ -7,10 +7,30 @@ import ScrollytellingCanvas from '@/components/ScrollytellingCanvas';
 import OverlayContent from '@/components/OverlayContent';
 import TelemetryHud from '@/components/TelemetryHud';
 
+export interface PaintColor {
+  id: string;
+  name: string;
+  hex: string;
+  filter: string;
+  glow: string;
+}
+
+export const PAINT_COLORS: PaintColor[] = [
+  { id: 'red', name: 'Crimson Red', hex: '#FF0033', filter: 'none', glow: 'rgba(255, 0, 51, 0.4)' },
+  { id: 'cyan', name: 'Cyber Cyan', hex: '#00D6FF', filter: 'hue-rotate(170deg) saturate(1.8) brightness(1.1)', glow: 'rgba(0, 214, 255, 0.4)' },
+  { id: 'purple', name: 'Midnight Purple', hex: '#A855F7', filter: 'hue-rotate(250deg) saturate(1.6) brightness(0.95)', glow: 'rgba(168, 85, 247, 0.4)' },
+  { id: 'gold', name: 'Liquid Gold', hex: '#F59E0B', filter: 'hue-rotate(30deg) saturate(2.2) brightness(1.2)', glow: 'rgba(245, 158, 11, 0.4)' },
+  { id: 'green', name: 'Emerald Green', hex: '#10B981', filter: 'hue-rotate(85deg) saturate(1.7) brightness(1.05)', glow: 'rgba(16, 185, 129, 0.4)' },
+];
+
 export default function Home() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Showroom configurator state
+  const [activeColor, setActiveColor] = useState<PaintColor>(PAINT_COLORS[0]);
+  const [isReserveOpen, setIsReserveOpen] = useState(false);
 
   return (
     <main ref={containerRef} className="relative bg-[#000000] w-full min-h-screen">
@@ -81,10 +101,10 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Global Fixed Navbar */}
-      <Navbar />
+      <Navbar onOpenReserve={() => setIsReserveOpen(true)} />
 
       {/* Dynamic Telemetry HUD overlay in the bottom right corner */}
-      <TelemetryHud containerRef={containerRef} />
+      <TelemetryHud containerRef={containerRef} activeColor={activeColor} />
 
       {/* Sticky Canvas viewport */}
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden bg-[#000000] z-0">
@@ -92,12 +112,19 @@ export default function Home() {
           containerRef={containerRef}
           onLoadingProgress={setLoadingProgress}
           onLoaded={() => setIsLoaded(true)}
+          colorFilter={activeColor.filter}
         />
       </div>
 
       {/* Scrolling overlay panels */}
       <div className="relative z-10 -mt-[100vh]">
-        <OverlayContent />
+        <OverlayContent
+          activeColor={activeColor}
+          onColorChange={setActiveColor}
+          isReserveOpen={isReserveOpen}
+          onReserveClose={() => setIsReserveOpen(false)}
+          onOpenReserve={() => setIsReserveOpen(true)}
+        />
       </div>
     </main>
   );
