@@ -23,12 +23,12 @@ export default function Navbar({ onOpenReserve }: NavbarProps) {
 
   return (
     <>
-      <div className="fixed top-4 sm:top-6 left-0 w-full z-50 px-4 flex justify-center pointer-events-none">
+      <div className="fixed top-4 sm:top-6 left-0 w-full z-50 px-2 sm:px-4 flex justify-center pointer-events-none">
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8, ease: 'easeOut' }}
-          className="pointer-events-auto glassmorphism border border-white/10 rounded-full px-4 md:px-6 py-2.5 sm:py-3 w-[95%] md:w-[92%] max-w-7xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl grid grid-cols-3 items-center md:flex md:justify-between"
+          className="pointer-events-auto glassmorphism border border-white/10 rounded-full px-4 md:px-6 py-2.5 sm:py-3 w-[98%] sm:w-[95%] md:w-[92%] max-w-7xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl grid grid-cols-3 items-center md:flex md:justify-between"
         >
           {/* Mobile: Hamburger Button on Left */}
           <div className="flex items-center md:hidden justify-start">
