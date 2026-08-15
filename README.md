@@ -4,7 +4,7 @@ An ultra-premium, Apple-level cinematic scrollytelling landing page showcasing t
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 * **Zero-Gravity Scroll Sequence**: A high-performance 240-frame 3D image sequence synced directly to user scroll progress.
 * **Physics-Based Smoothing**: Framer Motion `useSpring` handles scroll velocity to render frames at 60+ FPS on Retina and high-DPR screens.
@@ -14,7 +14,7 @@ An ultra-premium, Apple-level cinematic scrollytelling landing page showcasing t
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Core Framework**: Next.js 14/15 (App Router)
 * **Styling**: Tailwind CSS v4
@@ -23,7 +23,7 @@ An ultra-premium, Apple-level cinematic scrollytelling landing page showcasing t
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 Make sure you have the following installed on your machine:
 * [Node.js](https://nodejs.org/) (v18.17 or higher recommended)
@@ -31,7 +31,7 @@ Make sure you have the following installed on your machine:
 
 ---
 
-## 💻 How to Download & Run
+## How to Download & Run
 
 ### 1. Clone or Extract the Repository
 Download the project source files to your local machine and navigate into the project root directory:
@@ -66,7 +66,7 @@ npm run start
 
 ---
 
-## 📂 Project Directory Structure
+## Project Directory Structure
 
 ```text
 ├── public/
@@ -86,7 +86,7 @@ npm run start
 
 ---
 
-## ⚡ Performance Optimizations
+## Performance Optimizations
 
 * **Canvas Rendering**: Directly writes images to a 2D canvas context using `requestAnimationFrame` and scroll listeners to bypass React re-render cycles entirely, resulting in smooth rendering performance.
 * **Image Preloading**: Caches all 240 image frames in-memory on initial load, blocking the screen with a diagnostic loader until the resources are cached to prevent network lag on scroll.
